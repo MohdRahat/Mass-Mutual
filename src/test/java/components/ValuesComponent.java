@@ -10,8 +10,11 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import reusablefunctions.TestUtil;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.List;
+import java.util.Locale;
 
 public class ValuesComponent {
 
@@ -57,7 +60,7 @@ public class ValuesComponent {
     private WebElement ValueTotalBalance;
 
     @FindBy(xpath = "//*[@id='txt_ttl_val']")
-    private WebElement ValueTotalAmount;
+    private float ValueTotalAmount;
 
     WebDriverWait wait = new WebDriverWait(driver, 30);
 
@@ -96,36 +99,87 @@ public class ValuesComponent {
 
     public void totalBalanceIsCorrect() {
         try {
-//            String ValueAmount1, String ValueAmount2, String ValueAmount3, String ValueAmount4, String ValueAmount5
             wait.until(ExpectedConditions.visibilityOfAllElements());
-            List<WebElement> ValueAmount = new ArrayList<>();
+            List<String> ValueAmount = new ArrayList<>();
             if (Valuelabel1.isDisplayed()) {
-//                String[] total = {ValueAmount1, ValueAmount2, ValueAmount3, ValueAmount4, ValueAmount5};
                 List<Float> AmountValues = new ArrayList<>();
-                float sum = 0;
             }
+            float sum = 0;
             if (ValueAmount.size() != 5) {
                 Assert.fail();
             } else {
-//                for (String TotalAmount : ValueAmount) {
-//                    int index = TotalAmount.indexOf('$');
-//                    index++;
-//                    TotalAmount = TotalAmount.substring(index);
-//                    float f = Float.parseFloat(TotalAmount);
-//                    TotalAmount.add(f);
-//                }
-//                for (int i = 0; i <= 4; i++) {
+                for (String TotalAmount : ValueAmount) {
+                    int index = TotalAmount.indexOf('$');
+                    index++;
+                    TotalAmount = TotalAmount.substring(index);
+                    float f = Float.parseFloat(TotalAmount);
+//                    ValueAmount.add(f);
+                }
+                for (int i = 0; i <= 4; i++) {
 //                    sum = sum + AmountValues.get(i);
-//                }
-//                float totalValue = ValueAmount.get(5);
-//                double roundedSum = Math.round(sum * 20.0) / 20.0;
-//                double roundedOrderTotal = Math.round(totalValue * 20.0) / 20.0;
-//                Assert.assertEquals(roundedSum, roundedOrderTotal);
-//                Allure.addAttachment("", TestUtil.takeScreenshot());
+                }
+                float totalValue = ValueTotalAmount;
+                double roundedSum = Math.round(sum * 20.0) / 20.0;
+                double roundedOrderTotal = Math.round(totalValue * 20.0) / 20.0;
+                Assert.assertEquals(roundedSum, roundedOrderTotal);
+                Allure.addAttachment("", TestUtil.takeScreenshot());
             }
 
         } catch (Exception e) {
-            Allure.addAttachment("Values Appeared on the Screen are Not Greater than zero in Count", TestUtil.takeScreenshot());
+            Allure.addAttachment("Total Balance is Not Correct", TestUtil.takeScreenshot());
+        }
+    }
+
+    public void valuesFormattedAsCurrencies() {
+        try {
+            List<String> ValueAmountTotal = new ArrayList<>();
+            Locale currentLocale = Locale.getDefault();
+            Currency currency = Currency.getInstance(currentLocale);
+            NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(currentLocale);
+            String symbol = currency.getSymbol();
+            for (String ValueAmount : ValueAmountTotal) ;
+            int index = ValueAmount.indexOf('$');
+            index++;
+            if (ValueAmount.subList(0, 4).contains('$')) {
+                for (int i = 0; i <= 4; i++) {
+                    Allure.addDescription("Values has Currency Symbol $");
+                }
+            }
+        } catch (Exception e) {
+            Allure.addAttachment("Values Does not has Currency Symbol $", TestUtil.takeScreenshot());
+        }
+    }
+
+    public void totalMatchesTheSumAmount() {
+        try {
+            wait.until(ExpectedConditions.visibilityOfAllElements());
+            List<String> ValueAmount = new ArrayList<>();
+            if (Valuelabel1.isDisplayed()) {
+                List<Float> AmountValues = new ArrayList<>();
+            }
+            float sum = 0;
+            if (ValueAmount.size() != 5) {
+                Assert.fail();
+            } else {
+                for (String TotalAmount : ValueAmount) {
+                    int index = TotalAmount.indexOf('$');
+                    index++;
+                    TotalAmount = TotalAmount.substring(index);
+                    float f = Float.parseFloat(TotalAmount);
+//                    ValueAmount.add(f);
+                }
+                for (int i = 0; i <= 4; i++) {
+//                    sum = sum + AmountValues.get(i);
+                }
+                float totalValue = ValueTotalAmount;
+                double roundedSum = Math.round(sum * 20.0) / 20.0;
+                double roundedOrderTotal = Math.round(totalValue * 20.0) / 20.0;
+                Assert.assertEquals(roundedSum, roundedOrderTotal);
+                Allure.addAttachment("", TestUtil.takeScreenshot());
+            }
+
+        } catch (Exception e) {
+            Allure.addAttachment("Total Does not Matches the Sum AMount", TestUtil.takeScreenshot());
         }
     }
 }

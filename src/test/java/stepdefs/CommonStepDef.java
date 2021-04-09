@@ -1,16 +1,19 @@
 package stepdefs;
 
+import io.cucumber.java.After;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.annotations.BeforeTest;
 import pages.ValuesPage;
 
 public class CommonStepDef extends ValuesPage {
     WebDriver driver;
     ValuesPage valuesPage = new ValuesPage();
 
+    @BeforeTest
     public static void main(String[] args) {
         System.setProperty("webdriver.chrome.driver", "Drivers/chromedriver.exe");
         WebDriver driver = new ChromeDriver();
@@ -18,19 +21,19 @@ public class CommonStepDef extends ValuesPage {
     }
 
     @Given("Load Exercise1 home page")
-    public void launchurl() {
+    public void launchurl() throws Throwable {
         driver.get("https://www.exercise1.com/values");
 
     }
 
     @Then("Verify the right count of values appear on screen")
-    public void valuesAreRightInCount() {
+    public void valuesAreRightInCount() throws Throwable {
 
         valuesPage.valueRightCount();
     }
 
     @And("Verify the values on the screen are greater than 0")
-    public void valuesGreaterThanZero() {
+    public void valuesGreaterThanZero() throws Throwable {
 
         valuesPage.countGreaterThanZero();
     }
@@ -43,16 +46,21 @@ public class CommonStepDef extends ValuesPage {
     }
 
     @And("Verify the values formatted as currencies")
-    public void launc() {
+    public void valuesFormattedAsCurrencies() {
 
-        valuesPage.valueRightCount();
-        driver.get("https://www.exercise1.com/values");
+        valuesPage.valuesFormattedAsCurrencies();
+
     }
 
     @And("Verify the total balance matches the sum of the values")
-    public void laun() {
+    public void totalMatchesTheSumAmount() {
 
-        valuesPage.valueRightCount();
-        driver.get("https://www.exercise1.com/values");
+        valuesPage.totalMatchesTheSumAmount();
+
+    }
+
+    @After
+    public void closeBrowser() {
+        driver.quit();
     }
 }

@@ -10,4 +10,24 @@ public class ValuesPage extends ValuesComponent {
 
         values.rightCount();
     }
+
+    public void countGreaterThanZero() {
+
+        values.countGreaterThanZero();
+    }
+
+    public void totalBalanceIsCorrect() {
+
+        values.totalBalanceIsCorrect();
+    }
+
+    public void valuesFormattedAsCurrencies() {
+
+        values.valuesFormattedAsCurrencies();
+    }
+
+    public void totalMatchesTheSumAmount() {
+
+        values.totalMatchesTheSumAmount();
+    }
 }

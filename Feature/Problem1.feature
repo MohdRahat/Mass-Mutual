@@ -10,4 +10,5 @@ Feature: Problem1
     And Verify the total balance matches the sum of the values
 
     Examples:
-      |  |
+      | Browser        |
+      | Desktop_chrome |
